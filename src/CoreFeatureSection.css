@@ -1,0 +1,63 @@
+.core-feature-section {
+  padding: 100px 20px;
+  background-color: #f8f9fa;
+  direction: rtl;
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  overflow: hidden;
+  text-align: center;
+}
+
+.core-feature-title {
+  font-size: 36px;
+  color: #1c8c56;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.core-feature-subtitle {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 50px;
+}
+
+.core-feature-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.feature-card {
+  background-color: #1c8c56; 
+  border-radius: 12px;
+  padding: 30px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 320px;
+  text-align: center;
+  color: white; 
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+.feature-card img {
+  width: 70px;
+  margin-bottom: 20px;
+  filter: brightness(0) invert(1); 
+}
+
+.feature-card h4 {
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  color: #f0f0f0;
+  font-size: 16px;
+  line-height: 1.6;
+}

@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>وثائق مشواري</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <style>
+    /* متغيرات الألوان */
+    :root {
+      --primary-color: #1c8c56;
+      --secondary-color: #4caf50;
+      --accent-color: #8bc34a;
+      --text-color: #333;
+      --bg-color: #f5f5f5;
+      --card-bg: #fff;
+      --border-radius: 12px;
+      --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* الوضع الليلي */
+    .dark-mode {
+      --primary-color: #81c784;
+      --secondary-color: #66bb6a;
+      --accent-color: #a5d6a7;
+      --text-color: #f5f5f5;
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    /* الأساسيات */
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding-top: 80px;
+      transition: var(--transition);
+      line-height: 1.6;
+    }
+
+    /* الهيدر */
+    .header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: var(--box-shadow);
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      animation: slideDown 0.5s ease-out;
+    }
+
+    .header .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .welcome-message {
+      font-size: 1.1rem;
+      margin: 0 15px;
+      text-align: center;
+      flex-grow: 1;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    /* السايدبار */
+    .sidebar {
+      min-height: calc(100vh - 80px);
+      background-color: var(--card-bg);
+      padding: 2rem 1rem;
+      position: sticky;
+      top: 80px;
+      transition: var(--transition);
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+      animation: fadeInLeft 0.6s ease-out;
+    }
+
+    .dark-mode .sidebar {
+      border-right-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar .nav-link {
+      color: var(--text-color);
+      transition: var(--transition);
+      padding: 12px 15px;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar .nav-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(46, 125, 50, 0.1), transparent);
+      transition: all 0.6s ease;
+    }
+
+    .sidebar .nav-link:hover::before {
+      right: 100%;
+    }
+
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      background-color: rgba(46, 125, 50, 0.15);
+      color: var(--primary-color);
+      transform: translateX(5px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar .nav-link i {
+      margin-left: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar .nav-link:hover i {
+      transform: translateX(3px);
+    }
+
+    /* المحتوى الرئيسي */
+    .main-content {
+      padding: 2rem;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .section {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .section.active {
+      display: block;
+      opacity: 1;
+    }
+
+    /* تنسيق الفصول */
+    .chapter-content {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      margin-bottom: 2rem;
+      position: relative;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+      animation-delay: 0.2s;
+    }
+
+    .chapter-content h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary-color);
+      position: relative;
+      padding-right: 20px;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .chapter-content h1::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: -5px;
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), transparent);
+      animation: expandWidth 0.8s ease-out;
+    }
+
+    .chapter-content h2 {
+      font-size: 1.5rem;
+      margin: 1.5rem 0 1rem;
+      color: var(--secondary-color);
+      transition: var(--transition);
+      position: relative;
+      padding-left: 15px;
+      transform: translateX(-10px);
+      opacity: 0;
+      animation: fadeInRight 0.6s ease-out forwards;
+    }
+
+    .chapter-content h2:hover {
+      color: var(--primary-color);
+      transform: translateX(0);
+    }
+
+    .chapter-content h2::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      background: var(--secondary-color);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .chapter-content p,
+    .chapter-content li {
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+      transform: translateY(10px);
+      opacity: 0;
+      animation: fadeInUp 0.5s ease-out forwards;
+    }
+
+    .chapter-content ul,
+    .chapter-content ol {
+      padding-left: 1.5rem;
+    }
+
+    .chapter-content li {
+      margin-bottom: 0.5rem;
+      position: relative;
+      animation-delay: calc(0.1s * var(--i));
+    }
+
+    /* الجداول */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      box-shadow: var(--box-shadow);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      transform: scale(0.98);
+      opacity: 0;
+      animation: fadeInScale 0.6s ease-out forwards;
+      animation-delay: 0.3s;
+    }
+
+    th,
+    td {
+      padding: 12px 15px;
+      text-align: right;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .dark-mode th,
+    .dark-mode td {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      font-weight: bold;
+      position: relative;
+      overflow: hidden;
+    }
+
+    th::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: all 0.6s ease;
+    }
+
+    th:hover::after {
+      right: 100%;
+    }
+
+    td {
+      background-color: var(--card-bg);
+    }
+
+    tr:nth-child(even) td {
+      background-color: rgba(46, 125, 50, 0.05);
+    }
+
+    .dark-mode tr:nth-child(even) td {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    td:hover {
+      background-color: rgba(46, 125, 50, 0.1) !important;
+      transform: scale(1.02);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* أزرار التنقل بين الشابترات */
+    .chapter-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin: 40px 0;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .nav-button {
+      min-width: 120px;
+      padding: 10px 20px;
+      border-radius: var(--border-radius);
+      border: none;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      gap: 8px;
+    }
+
+    /* زر الرجوع */
+    .back-button {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding-right: 25px;
+      padding-left: 15px;
+    }
+
+    /* زر التالي */
+    .next-button {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding-left: 25px;
+      padding-right: 15px;
+    }
+
+    /* تأثيرات التحويم */
+    .nav-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .nav-button:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* تأثير الضوء المتحرك */
+    .nav-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
+          transparent,
+          rgba(255, 255, 255, 0.25),
+          transparent);
+      transition: all 0.7s ease;
+    }
+
+    .nav-button:hover::before {
+      right: 100%;
+    }
+
+    /* تأثير الإضاءة الداخلية */
+    .nav-button::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 10px;
+      background: transparent;
+      transition: all 0.3s ease;
+    }
+
+    .nav-button:hover::after {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* الأيقونات */
+    .nav-button i {
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+    }
+
+    /* تأثير النص */
+    .nav-button span {
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+
+    .nav-button:hover span {
+      letter-spacing: 0.5px;
+    }
+
+    /* وضع الليلي */
+    .mode-btn {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .dark-mode .mode-btn {
+      color: var(--accent-color);
+    }
+
+    .mode-btn:hover {
+      transform: rotate(20deg);
+    }
+
+    /* تأثيرات الحركة */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes expandWidth {
+      from {
+        width: 0;
+      }
+
+      to {
+        width: 100px;
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: translateY(-50%) scale(1.2);
+        opacity: 0.7;
+      }
+
+      100% {
+        transform: translateY(-50%) scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* التجاوب */
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .welcome-message {
+        margin: 10px 0;
+      }
+
+      .sidebar {
+        position: static;
+        min-height: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .chapter-content {
+        padding: 1.5rem;
+      }
+
+      .chapter-content h1 {
+        font-size: 1.8rem;
+      }
+
+      .chapter-content h2 {
+        font-size: 1.3rem;
+      }
+
+      .chapter-navigation {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .nav-button {
+        width: 100%;
+        max-width: 280px;
+        padding: 12px 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- الهيدر -->
+  <header class="header d-flex justify-content-between align-items-center flex-wrap">
+    <div class="logo">مشواري</div>
+    <div class="welcome-message">مرحباً بك في وثائق تطبيق مشواري هنا يمكنك العثور على جميع المعلومات التي تحتاجها.
+    </div>
+    <button class="mode-btn" onclick="toggleDarkMode()" id="modeToggle">
+      <i class="bi bi-moon-stars-fill"></i>
+    </button>
+  </header>
+
+  <!-- المحتوى -->
+  <div class="container-fluid">
+    <div class="row">
+      <!-- القائمة الجانبية -->
+      <nav class="col-md-3 sidebar">
+        <ul class="nav flex-column">
+          <li class="nav-item"><a href="#overview" class="nav-link" onclick="showSection('overview')">نظرة عامة</a></li>
+           <li class="nav-item"><a href="#chapter1" class="nav-link" onclick="showSection('chapter1')">مقدمة عن مشواري</a></li>
+          <li class="nav-item"><a href="#features" class="nav-link" onclick="showSection('features')">مميزات مشواري</a></li>
+          <li class="nav-item"><a href="#how-to-use" class="nav-link" onclick="showSection('how-to-use')">كيفية
+              الاستخدام</a></li>
+         
+         
+          <li class="nav-item"><a href="#chapter2" class="nav-link" onclick="showSection('chapter2')">تحليل للتطبيقات
+              المنافسة</a></li>
+          <li class="nav-item"><a href="#chapter3" class="nav-link" onclick="showSection('chapter3')">إدارة المشروع</a>
+          </li>
+          <li class="nav-item"><a href="#chapter4" class="nav-link" onclick="showSection('chapter4')">تحليل وتصميم
+              النظام </a></li>
+          <li class="nav-item"><a href="#chapter5" class="nav-link" onclick="showSection('chapter5')">تنفيذ التطبيق</a>
+             <li class="nav-item"><a href="#faq" class="nav-link" onclick="showSection('faq')">أي أسئلة؟</a></li>
+          </li>
+          <li class="nav-item"><a href="index.html" class="nav-link">الرجوع للرئيسية</a></li>
+        </ul>
+      </nav>
+
+      <!-- المحتوى الرئيسي -->
+      <main class="col-md-9 py-4">
+        <section id="overview" class="section active">
+          <div class="chapter-content">
+            <h2>نظرة عامة</h2>
+            <p>هذه نظرة عامة على تطبيق مشواري.
+              تطبيق مبتكر لحل مشكلة النقل الجماعي، ويوفر خدمات نقل حديثة وفورية.</p>
+          </div>
+        </section>
+        <section id="features" class="section">
+          <div class="chapter-content">
+            <h2>المميزات</h2>
+            <p>التطبيق يقدم لك العديد من المميزات منها:</p>
+            <ul>
+              <li>تتبع لحظي للمواقف.</li>
+              <li>حجز مسبق للمركبات.</li>
+              <li>التنبيه بموعد وصول المركبات.</li>
+              <li>دعم كامل للميكروباصات.</li>
+            </ul>
+          </div>
+        </section>
+        <section id="how-to-use" class="section">
+          <div class="chapter-content">
+            <h2>كيفية الاستخدام</h2>
+            <p>يمكنك ببساطة تحميل التطبيق على هاتفك، ثم:</p>
+            <ol>
+              <li>قم بتحديد الموقع الحالي.</li>
+              <li>اختر الموقف الأقرب لك.</li>
+              <li>احجز مكانك في المركبة المتوفرة.</li>
+              <li>انتظر إشعارات وصول المركبة.</li>
+            </ol>
+          </div>
+        </section>
+        <section id="faq" class="section">
+          <div class="chapter-content">
+            <h2>أي أسئلة؟</h2>
+            <p>هل لديك أي استفسار؟ نحن هنا للإجابة على جميع أسئلتك!</p>
+             <button className="btn btn-success rounded-pill px-4 ms-3" href="hire-us">حمّل التطبيق الآن</button>
+          </div>
+        </section>
+
+        <!-- شابتر 1 -->
+        <section id="chapter1" class="section">
+          <div class="chapter-content">
+            <h1>مقدمة عن مشروع مشواري</h1>
+            <h2>🏙️ مشروع وطني لرقمنة مواقف مصر</h2>
+            <p>مشواري هو مشروع تقني متكامل يهدف لربط مواقف النقل الجماعي في مصر كلها تحت نظام رقمي موحّد...</p>
+            <h2>⚠️ ليه عملنا مشواري؟</h2>
+            <ul>
+              <li>علشان الركّاب ميستنوش بالساعات من غير ما يعرفوا إمتى العربية هتيجي.</li>
+              <li>علشان يكون في طريقة ذكية لحجز مكان قبل ما تنزل من البيت.</li>
+              <li>علشان نقضي على الزحمة والعشوائية اللي في المواقف.</li>
+            </ul>
+            <h2>💡 التطبيق بيعمل إيه؟</h2>
+            <ol>
+              <li>يعرض المواقف القريبة من مكانك.</li>
+              <li>يعرض المركبات المتوفرة في كل موقف.</li>
+              <li>يعرفك وقت وصول كل عربية.</li>
+              <li>يخليك تحجز مكانك بكل سهولة.</li>
+              <li>يبعتلك إشعارات فورية لو في تحديث أو تأخير.</li>
+            </ol>
+            <h2>🎯 أهداف المشروع</h2>
+            <ul>
+              <li>تحسين تجربة النقل الجماعي.</li>
+              <li>توفير وقت ومجهود للمواطن.</li>
+              <li>مساعدة الحكومة في مراقبة وإدارة المواقف.</li>
+              <li>تشجيع الناس تستخدم المواصلات بدل العربيات الخاصة.</li>
+            </ul>
+
+            <div class="chapter-navigation">
+              <button class="nav-button next-button" onclick="showSection('chapter2')">
+                <span>التالي</span>
+                <i class="bi bi-arrow-left-circle-fill"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- شابتر 2 -->
+        <section id="chapter2" class="section">
+          <div class="chapter-content">
+            <h1> تحليل السوق والتطبيقات المنافسة</h1>
+            <h2>🔍 الوضع الحالي في السوق</h2>
+            <p>مع إن فيه تطبيقات توصيل مشهورة، زي Uber وCareem، مفيش ولا واحد منهم بيخدم مواقف النقل الجماعي أو بيوفر
+              بيانات حقيقية عنها.</p>
+            <h2>🧩 مقارنة مع المنافسين:</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>الميزة</th>
+                  <th>مشواري</th>
+                  <th>Uber</th>
+                  <th>Careem</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>تتبع لحظي لحالة الموقف</td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+                <tr>
+                  <td>حجز مسبق</td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+                <tr>
+                  <td>دعم الميكروباصات</td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+                <tr>
+                  <td>التكلفة</td>
+                  <td>منخفضة</td>
+                  <td>مرتفعة</td>
+                  <td>مرتفعة</td>
+                </tr>
+                <tr>
+                  <td>يخدم مواقف النقل العام</td>
+                  <td>✅</td>
+                  <td>❌</td>
+                  <td>❌</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="chapter-navigation">
+              <button class="nav-button back-button" onclick="showSection('chapter1')">
+                <i class="bi bi-arrow-right-circle-fill"></i>
+                <span>السابق</span>
+              </button>
+              <button class="nav-button next-button" onclick="showSection('chapter3')">
+                <span>التالي</span>
+                <i class="bi bi-arrow-left-circle-fill"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- شابتر 3 -->
+        <section id="chapter3" class="section">
+          <div class="chapter-content">
+            <h1> تصميم وتطوير مشواري</h1>
+            <h2>🧠 البداية</h2>
+            <p>سألنا ناس من الشارع:</p>
+            <ul>
+              <li>إيه مشكلتك مع الميكروباصات؟</li>
+              <li>نفسك في إيه؟</li>
+            </ul>
+            <p>والإجابات كلها بتقول: "نظام".</p>
+            <p>من هنا بدأنا نشتغل على مشواري مش كتطبيق، لكن كنظام بيحوّل المواقف من العشوائية للرقمنة.</p>
+            <h2>🎨 التصميم</h2>
+            <ul>
+              <li>واجهة بسيطة.</li>
+              <li>خريطة للمواقف.</li>
+              <li>عرض لحظي لحالة الموقف.</li>
+              <li>حجز مباشر بزر واحد.</li>
+            </ul>
+            <h2>💻 التكنولوجيا</h2>
+            <ul>
+              <li>Flutter لواجهة الموبايل.</li>
+              <li>ASP.NET Core للسيرفر.</li>
+              <li>SQL Server لتخزين البيانات.</li>
+              <li>Google Maps + GPS للمواقع.</li>
+              <li>Firebase للإشعارات.</li>
+            </ul>
+            <h2>🔁 كيف بيشتغل النظام</h2>
+            <ol>
+              <li>المستخدم يشوف أقرب موقف.</li>
+              <li>يشوف المركبات المتاحة.</li>
+              <li>يحجز مقعد.</li>
+              <li>التطبيق يحدث البيانات فورًا.</li>
+              <li>الموقف يظهر عنده إن الشخص حجز.</li>
+            </ol>
+
+            <div class="chapter-navigation">
+              <button class="nav-button back-button" onclick="showSection('chapter2')">
+                <i class="bi bi-arrow-right-circle-fill"></i>
+                <span>السابق</span>
+              </button>
+              <button class="nav-button next-button" onclick="showSection('chapter4')">
+                <span>التالي</span>
+                <i class="bi bi-arrow-left-circle-fill"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- شابتر 4 -->
+        <section id="chapter4" class="section">
+          <div class="chapter-content">
+            <h1> نتائج واختبارات التطبيق</h1>
+            <h2>🧪 مراحل الاختبار:</h2>
+            <ul>
+              <li>Unit Testing: اختبرنا كل ميزة على حدة.</li>
+              <li>Integration Testing: تأكدنا إن الموبايل والسيرفر والبيانات شغالين كمنظومة.</li>
+              <li>User Testing: جربنا التطبيق مع ناس حقيقية وشفنا ردود فعلهم.</li>
+            </ul>
+            <h2>✅ النتائج:</h2>
+            <ul>
+              <li>التطبيق سريع وسلس.</li>
+              <li>الناس فهمت طريقة استخدامه بسرعة.</li>
+              <li>نظام الحجز شغال بكفاءة.</li>
+              <li>بيختصر وقت الانتظار ويوفر راحة نفسية.</li>
+            </ul>
+
+            <div class="chapter-navigation">
+              <button class="nav-button back-button" onclick="showSection('chapter3')">
+                <i class="bi bi-arrow-right-circle-fill"></i>
+                <span>السابق</span>
+              </button>
+              <button class="nav-button next-button" onclick="showSection('chapter5')">
+                <span>التالي</span>
+                <i class="bi bi-arrow-left-circle-fill"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- شابتر 5 -->
+        <section id="chapter5" class="section">
+          <div class="chapter-content">
+            <h1>التوصيات والخطوات القادمة</h1>
+            <h2>🔭 إيه اللي جاي بعد مشواري؟</h2>
+            <ul>
+              <li>توسعة التطبيق لكل محافظات مصر.</li>
+              <li>ربطه بمراكز تشغيل حكومية.</li>
+              <li>إضافة ذكاء اصطناعي لتوقع الازدحام.</li>
+              <li>تقديم دفع إلكتروني للحجز.</li>
+              <li>دعم تقييم السائقين والمواقف.</li>
+            </ul>
+            <h2>💼 توصيات:</h2>
+            <ul>
+              <li>تتبناه جهات حكومية كمشروع وطني.</li>
+              <li>يُدمج مع نظام النقل الذكي في مصر.</li>
+              <li>يُموَّل من خلال مستثمرين وشراقات تكنولوجية.</li>
+            </ul>
+            <h2>🌍 تأثير المشروع:</h2>
+            <ul>
+              <li>حل فعلي لمشكلة النقل الجماعي.</li>
+              <li>تقليل الزحمة وتحسين البيئة.</li>
+              <li>مواكبة رؤية مصر الرقمية.</li>
+            </ul>
+
+            <div class="chapter-navigation">
+              <button class="nav-button back-button" onclick="showSection('chapter4')">
+                <i class="bi bi-arrow-right-circle-fill"></i>
+                <span>السابق</span>
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+      const activeLink = Array.from(document.querySelectorAll('.nav-link')).find(link => link.getAttribute('href') === '#' + id);
+      if (activeLink) activeLink.classList.add('active');
+
+      // Scroll to top when changing sections
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      const icon = document.querySelector('#modeToggle i');
+      if (document.body.classList.contains('dark-mode')) {
+        icon.classList.remove('bi-moon-stars-fill');
+        icon.classList.add('bi-sun-fill');
+      } else {
+        icon.classList.remove('bi-sun-fill');
+        icon.classList.add('bi-moon-stars-fill');
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+.hero-section {
+  height: 100vh; 
+  padding: 80px 0;
+  background-color: #f8f9fa;
+  display: flex;              
+  flex-direction: column;
+  justify-content: center;    
+  align-items: flex-end;      
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #1f1f1f;
+  text-align: right;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 30px;
+  line-height: 1.8;
+  text-align: right;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 25px; 
+  justify-content: flex-end; 
+  flex-wrap: wrap;
+}
+
+.hero-buttons .btn {
+  min-width: 160px;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 50px;
+}
